@@ -522,10 +522,12 @@ var save = function()
 	var public_source = $('#public_source').val();
 	var does_replies = $('#does_replies').val();
 	var reply_rules = $('#reply_rules').val();
+	var user_id = window.current_user_id;
+
 	$.ajax({
 	  url: "update.php",
 	  method : "POST",
-	  data : {"frequency": freq , "tracery" : tracery, "public_source" : public_source, "does_replies" : does_replies, "reply_rules" : reply_rules},
+	  data : {"frequency": freq , "tracery" : tracery, "public_source" : public_source, "does_replies" : does_replies, "reply_rules" : reply_rules, "user_id" : user_id},
 	  dataType: "json"
 	})
 	  .done(function( data ) {

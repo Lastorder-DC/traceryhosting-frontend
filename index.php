@@ -30,7 +30,7 @@ session_start();
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Cheap Bots, Done Quick!</title>
+        <title>학원도시 자판기 관리 시스템</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -57,15 +57,15 @@ if (!isset($_SESSION['user_id']))
 
     <div class="container-fluid">
 
-        <h1 class="header text-center cursive">Cheap Bots, Done Quick!</h1>
+        <h1 class="header text-center cursive">Twitter Vending Machine Bot Manager</h1>
         <br><br>
         <div class="row">
 		  <div class="col-md-6 col-md-offset-3">
 		  
 
-	<p>This site will help you make a Twitterbot! They're easy to make and free to run.
-      </p>
-
+	<p class="text-center">Please login below to manage bot account.</p>
+	<p class="text-center">Please note that only some accounts are allowed for now. This might change in future, but since this server is very limited, There are no plan to open for regular users.</p>
+<!--
 		  <p>To use it, <a href="https://twitter.com/signup">create a Twitter account</a> for your bot to run under and then sign in below. 
 		  The bots are written in <a href="http://www.brightspiral.com">Tracery</a>, a tool for writing generative grammars developed by <a href="http://www.galaxykate.com/">Kate Compton</a>. This site is run by <a href="https://v21.io">George Buckenham</a> - they can be contacted at <a href="mailto:vtwentyone@gmail.com">vtwentyone@gmail.com</a>. You can support this site on <a href="https://www.patreon.com/v21">Patreon</a>.</p>
 		  </p>
@@ -73,44 +73,33 @@ if (!isset($_SESSION['user_id']))
 		  </div>
 		</div>
 		
-        <br><br>
+        <br><br>-->
 		<div class="row">
 		  <div class="center-block">
 			<a href="signin.php"><img src="img/sign-in-with-twitter-gray.png" class="center-block"></a>
 		  </div>
 		</div>
-
+<!--
         <br><br>
         <div class="row">
           <div class="col-md-6 col-md-offset-3">
           Some examples of twitterbots made with this site:
           <ul id="shuffle">
-          <li><a href="https://twitter.com/hashfacade">@hashfacade</a> <a href="//cheapbotsdonequick.com/source/hashfacade">(source)</a></li>
-          <li><a href="https://twitter.com/gnuerror">@gnuerror</a> <a href="//cheapbotsdonequick.com/source/gnuerror">(source)</a></li>
-          <li><a href="https://twitter.com/unicode_garden">@unicode_garden</a> <a href="//cheapbotsdonequick.com/source/unicode_garden">(source)</a></li>
-          <li><a href="https://twitter.com/softlandscapes">@softlandscapes</a> <a href="//cheapbotsdonequick.com/source/softlandscapes">(source)</a></li>
-          <li><a href="https://twitter.com/thetinygallery">@thetinygallery</a> <a href="//cheapbotsdonequick.com/source/thetinygallery">(source)</a></li>
-          <li><a href="https://twitter.com/bot_teleport">@bot_teleport</a> <a href="//cheapbotsdonequick.com/source/bot_teleport">(source)</a></li>
-          <li><a href="https://twitter.com/autoflaneur">@autoflaneur</a> <a href="//cheapbotsdonequick.com/source/autoflaneur">(source)</a></li>
-          <li><a href="https://twitter.com/lotsofeyes">@lotsofeyes</a> <a href="//cheapbotsdonequick.com/source/lotsofeyes">(source)</a></li>
-          <li><a href="https://twitter.com/thinkpiecebot">@thinkpiecebot</a></li>
-          <li><a href="https://twitter.com/infinitedeserts">@infinitedeserts</a></li>
-          <li><a href="https://twitter.com/FoleyArtists">@FoleyArtists</a> <a href="//cheapbotsdonequick.com/source/FoleyArtists">(source)</a></li>
-          <li><a href="https://twitter.com/What_Hastings">@What_Hastings</a></li>
-          <li><a href="https://twitter.com/petitsmotifs">@petitsmotifs</a></li>
-          <!--<li><a href="https://twitter.com/AbhorrentSexBot">@AbhorrentSexBot</a></li>-->
-          
+          <li><a href="https://twitter.com/vending_toaru">@vending_toaru</a> <a href="//bot.lastorder.xyz/source/vending_toaru">(source)</a></li>
           </ul>
-
+-->
 <script type="text/javascript">
+/*
 var ul = document.getElementById("shuffle");
 for (var i = ul.children.length; i >= 0; i--) {
     ul.appendChild(ul.children[Math.random() * i | 0]);
 }
+*/
 </script> 
+<!--
           </div>
         </div>
-
+-->
 
 <!--
       <hr>
@@ -133,8 +122,9 @@ die();
 }
 //we've got an account
 $stmt = $pdo->prepare('SELECT * FROM traceries WHERE user_id = :user_id');
-
-$stmt->execute(array('user_id' => $_SESSION['user_id']));
+if($_SESSION['user_id'] === ADMIN_USER_ID && isset($_GET['user_id'])) $current_user_id = $_GET['user_id'];
+else $current_user_id = $_SESSION['user_id'];
+$stmt->execute(array('user_id' => $current_user_id));
 $result = $stmt->fetch(PDO::FETCH_ASSOC); 
 
 //todo handle failing to find user
@@ -148,8 +138,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
     <div class="container-fluid">
-
-    <h1 class="header text-center cursive">Cheap Bots, Done Quick!</h1>
+    <h1 class="header text-center cursive">Twitter Vending Machine Bot Manager</h1>
         <br>
         <div class="row">
 		  <div class="col-md-8 col-md-offset-2">
@@ -157,7 +146,6 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
           <p>You can also include images in your tweets. The simplest way to do this is to specify a URL, like so <code>{img https://placeimg.com/640/480/animals/image.jpg}</code>. Alternatively, to generate an image within CBDQ, you can use <a href="https://developer.mozilla.org/en-US/docs/Web/SVG">SVGs</a>. A good simple example to start from is the source of <a href="//cheapbotsdonequick.com/source/hashfacade">@hashfacade</a>. The syntax looks like this: <code>{svg  &lt;svg ...&gt; ... &lt;/svg&gt;}</code>. SVGs will need to specify a <code>width</code> and <code>height</code> attribute. Note that <code>"</code>s within SVG files need to be escaped as <code>\"</code>, as does <code>#</code>s (<code>\\#</code>). <code>{</code>s and <code>}</code>s can be escaped as <code>\\\\{</code> and <code>\\\\}</code>. </p>
 
-          <p>If you create a bot I deem spammy, abusive or otherwise unpleasant (for example, @mentioning people who have not consented, posting insults or using slurs) I will take it down. If you have any questions, bug reports or comments then you can reach me at <a href="https://twitter.com/v21">@v21</a> or at <a href="mailto:vtwentyone@gmail.com">vtwentyone@gmail.com</a></p>
 		  <ul>
         <li><a href="http://air.decontextualize.com/tracery/">Tracery tutorial</a></li>
   		  <li><a href="http://www.crystalcodepalace.com/traceryTut.html">Interactive tutorial</a></li>
@@ -306,7 +294,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
               echo('<option value="' . $sharevalue . '" '. ($result['public_source'] == $sharevalue ? 'selected' : '') .'>' . $sharelabel . '</option>');
             }
           ?> 
-          </select> Tracery source at <a target="_blank" href="/source/<?php echo($result['screen_name']) ?>">cheapbotsdonequick.com/source/<?php echo($result['screen_name']) ?></a>.
+          </select> Tracery source at <a target="_blank" href="/source/<?php echo($result['screen_name']) ?>">bot.lastorder.xyz/source/<?php echo($result['screen_name']) ?></a>.
 
         </div>
     <br>
@@ -333,7 +321,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
         <script src="js/vendor/bootstrap.min.js"></script>
-
+        <script type="text/javascript">var current_user_id = "<?php echo($_GET['user_id'] ? $_GET['user_id'] : ""); ?>"</script>
         <script src="js/tracery.js"></script>
         <script src="js/twitter-text-1.9.4.min.js"></script>
         <script src="js/expanding.js"></script>

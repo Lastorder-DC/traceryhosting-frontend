@@ -9,7 +9,7 @@ session_start();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_id'] != ADMIN_USER_ID)
 {
-  die();
+  die("Not Admin");
 }
 
 
@@ -22,7 +22,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_id'] != ADMIN_USER_ID)
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>ADMIN for Cheap Bots, Done Quick!</title>
+        <title>관리 화면 :: 학원도시 자판기 관리 시스템</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -95,7 +95,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
-        <h1 class="header text-center cursive">Cheap Bots, Done Quick!</h1>
+        <h1 class="header text-center cursive">Twitter Vending Machine Bot Manager</h1>
         <br><br>
         <div class="row">
 
@@ -116,8 +116,9 @@ if (!$include_inactive)
     $svg = $value['svg'] == 0 ? "no" : "yes";
     echo("<tr>
       <td>{$value['frequency']}</td>
-      <td><a href=\"admin_single.php?screen_name={$value['screen_name']}\" target=\"_blank\">{$value['screen_name']}</a></td>
-      <td><a href=\"https://twitter.com/{$value['screen_name']}\" target=\"_blank\">{$value['user_id']}</a></td>
+      <!-- <td><a href=\"admin_single.php?screen_name={$value['screen_name']}\" target=\"_blank\">{$value['screen_name']}</a></td> -->
+      <td><a href=\"https://twitter.com/{$value['screen_name']}\" target=\"_blank\">{$value['screen_name']}</a></td>
+      <td><a href=\"/?user_id={$value['user_id']}\" target=\"_blank\">{$value['user_id']}</a></td>
       <td>{$value['created_on']}</td>
       <td>{$value['last_updated']}</td>
       <td>{$value['tracery_size']}</td>

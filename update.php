@@ -24,7 +24,7 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 session_set_cookie_params(2678000);
 session_start();
 
-if (isset($_SESSION['oauth_token']))
+if (isset($_SESSION['oauth_token']) && (!isset($_POST['user_id']) || $_POST['user_id'] == ""))
 {
 	try
 	{
@@ -53,11 +53,35 @@ if (isset($_SESSION['oauth_token']))
 	}
 
 }
+else if($_SESSION['user_id'] === ADMIN_USER_ID && isset($_POST['user_id']) && $_POST['user_id'] != "")
+{
+	try
+	{
+		//todo validate json here
+
+		$stmt = $pdo->prepare('UPDATE traceries SET frequency=:frequency, tracery=:tracery, public_source=:public_source, does_replies=:does_replies, reply_rules=:reply_rules, last_updated=now() WHERE user_id=:user_id');
+
+	  	$stmt->execute(array('frequency' => $_POST['frequency'], 'tracery' => $_POST['tracery'],'public_source' => $_POST['public_source'],'does_replies' => $_POST['does_replies'],'reply_rules' => $_POST['reply_rules'], 'user_id' => $_POST['user_id']));
+
+	  	if ($stmt->rowCount() == 1)
+	  	{
+	  		die ("{\"success\": true}");
+	  	}
+	  	else
+	  	{
+			die ("{\"success\": false, \"reason\" : \"row count mismatch\"}");
+	  	}
+
+	}
+	catch(PDOException $e)
+	{
+		
+		error_log($e);
+		die ("{\"success\": false, \"reason\" : \"db err " . $e->getCode() . "\"}");
+		//die($e); //todo clean this
+	}
+}
 else
 {
 	die ("{\"success\": false, \"reason\" : \"Not signed in\"}");
 }
-
-
-
-?>

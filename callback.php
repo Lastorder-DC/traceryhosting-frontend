@@ -30,9 +30,24 @@ function login_failure()
     }
 
     session_destroy();
-    die('Error! Couldn\'t log in. <a href="//cheapbotsdonequick.com">Retry</a>');
+    die('Error! Couldn\'t log in. <a href="//bot.lastorder.xyz">Retry</a>');
 }
 
+function login_denied()
+{
+  $_SESSION = array();
+
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+
+    session_destroy();
+    die('Error! Your ID is not allowed to login this site. If you want to make twitter bots like @vending_toaru, use <a href="https://cheapbotsdonequick.com">Cheap Bots, Done Quick!</a>');
+}
 
 $request_token = array();
 $request_token['oauth_token'] = $_SESSION['oauth_token'];
@@ -53,6 +68,11 @@ $access_token = $connection->oauth("oauth/access_token", array("oauth_verifier" 
 if (!(isset($access_token["oauth_token"])) || !(isset($access_token["oauth_token_secret"])))
 {
   login_failure();
+}
+
+if($access_token["screen_name"] !== "Last_order__b" && $access_token["screen_name"] !== "vending_toaru" && $access_token["screen_name"] !== "Uiharu_KB")
+{
+  login_denied();
 }
 
 //todo verify that we succeeded

@@ -820,4 +820,4 @@ var tracery = function() {
     return tracery;
 }();
 
-module.exports = tracery; 
+if(typeof module !== 'undefined') module.exports = tracery; 
