@@ -70,7 +70,7 @@ if (!(isset($access_token["oauth_token"])) || !(isset($access_token["oauth_token
   login_failure();
 }
 
-if($access_token["screen_name"] !== "Last_order__b" && $access_token["screen_name"] !== "vending_toaru" && $access_token["screen_name"] !== "Uiharu_KB")
+if($access_token["screen_name"] !== "Lastorder_KB" && $access_token["screen_name"] !== "vending_toaru" && $access_token["screen_name"] !== "Uiharu_KB")
 {
   login_denied();
 }
