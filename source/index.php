@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Cheap Bots, Done Quick!</title>
+        <title>학원도시 자판기 관리 시스템</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -93,7 +93,7 @@ else
 
     <div class="container-fluid">
 
-    <h1 class="header text-center cursive">Cheap Bots, Done Quick!</h1>
+    <h1 class="header text-center cursive">Twitter Vending Machine Bot Manager</h1>
         <br>
         <div class="row">
       <div class="col-md-6 col-md-offset-3">
